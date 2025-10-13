@@ -22,22 +22,22 @@
 #   owners = ["099720109477"] # Canonical
 # }
 
-data "aws_ami" "amazon_linux" {
-  count       = var.user_supplied_ami_id != null ? 0 : 1
-  most_recent = true
+# data "aws_ami" "amazon_linux" {
+#   count       = var.user_supplied_ami_id != null ? 0 : 1
+#   most_recent = true
 
-  filter {
-    name   = "name"
-    values = ["Amazon Linux*"]
-  }
+#   filter {
+#     name   = "name"
+#     values = ["Amazon Linux*"]
+#   }
 
-  # filter {
-  #   name   = "virtualization-type"
-  #   values = ["hvm"]
-  # }
+#   # filter {
+#   #   name   = "virtualization-type"
+#   #   values = ["hvm"]
+#   # }
 
-  owners = ["099720109477"] # Canonical
-}
+#   owners = ["099720109477"] # Canonical
+# }
 
 resource "aws_security_group" "vault" {
   name   = "${var.resource_name_prefix}-vault"
