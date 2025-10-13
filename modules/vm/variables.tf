@@ -64,7 +64,7 @@ variable "userdata_script" {
 variable "user_supplied_ami_id" {
   type        = string
   description = "AMI ID to use with Vault instances"
-  default     = null
+  default     = "ami-0f393ad09b0767896"
 }
 
 variable "vault_lb_sg_id" {
