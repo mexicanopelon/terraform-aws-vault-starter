@@ -39,6 +39,7 @@
 #   owners = ["099720109477"] # Canonical
 # }
 
+
 resource "aws_security_group" "vault" {
   name   = "${var.resource_name_prefix}-vault"
   vpc_id = var.vpc_id
