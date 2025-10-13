@@ -22,6 +22,23 @@
 #   owners = ["099720109477"] # Canonical
 # }
 
+data "aws_ami" "amazon_linux" {
+  count       = var.user_supplied_ami_id != null ? 0 : 1
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["Amazon Linux*"]
+  }
+
+  # filter {
+  #   name   = "virtualization-type"
+  #   values = ["hvm"]
+  # }
+
+  owners = ["099720109477"] # Canonical
+}
+
 resource "aws_security_group" "vault" {
   name   = "${var.resource_name_prefix}-vault"
   vpc_id = var.vpc_id
@@ -123,7 +140,8 @@ resource "aws_security_group_rule" "vault_outbound" {
 
 resource "aws_launch_template" "vault" {
   name          = "${var.resource_name_prefix}-vault"
-  image_id      = "ami-0f393ad09b0767896" # != null ? var.user_supplied_ami_id : data.aws_ami.ubuntu[0].id
+  # image_id      = "ami-0f393ad09b0767896" # != null ? var.user_supplied_ami_id : data.aws_ami.ubuntu[0].id
+  image_id      = "Amazon Linux 2023 kernel-6.12 AMI"
   instance_type = var.instance_type
   key_name      = var.key_name != null ? var.key_name : null
   user_data     = var.userdata_script
