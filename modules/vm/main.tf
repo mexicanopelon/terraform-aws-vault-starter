@@ -123,7 +123,7 @@ resource "aws_security_group_rule" "vault_outbound" {
 
 resource "aws_launch_template" "vault" {
   name          = "${var.resource_name_prefix}-vault"
-  image_id      = var.user_supplied_ami_id != null ? var.user_supplied_ami_id : data.aws_ami.ubuntu[0].id
+  image_id      = var.user_supplied_ami_id # != null ? var.user_supplied_ami_id : data.aws_ami.ubuntu[0].id
   instance_type = var.instance_type
   key_name      = var.key_name != null ? var.key_name : null
   user_data     = var.userdata_script
