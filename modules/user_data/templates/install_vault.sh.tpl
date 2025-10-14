@@ -13,7 +13,7 @@ local_ipv4=$( curl -Ss -H "X-aws-ec2-metadata-token: $imds_token" 169.254.169.25
 
 yum install -y yum-utils shadow-utils
 yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
-yum install vault
+yum install -y vault
 
 echo "Configuring system time"
 timedatectl set-timezone UTC
