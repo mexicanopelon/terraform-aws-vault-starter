@@ -22,6 +22,16 @@
 #   owners = ["099720109477"] # Canonical
 # }
 
+data "aws_ami" "amazon_linux" {
+  most_recent = true
+
+  owners = ["amazon"]
+
+  filter {
+    name   = "name"
+    values = ["al2023-ami-*x86_64"]
+  }
+}
 
 resource "aws_security_group" "vault" {
   name   = "${var.resource_name_prefix}-vault"
@@ -125,7 +135,8 @@ resource "aws_security_group_rule" "vault_outbound" {
 resource "aws_launch_template" "vault" {
   name          = "${var.resource_name_prefix}-vault"
   # image_id      = "ami-0f393ad09b0767896" # != null ? var.user_supplied_ami_id : data.aws_ami.ubuntu[0].id
-  image_id      = "ami-03c4f11b50838ab5d"
+  # image_id      = "ami-03c4f11b50838ab5d"
+  image_id      = data.aws_ami.amazon_linux.id
   instance_type = var.instance_type
   key_name      = var.key_name != null ? var.key_name : null
   user_data     = var.userdata_script
