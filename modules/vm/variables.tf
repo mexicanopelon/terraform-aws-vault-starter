@@ -31,7 +31,8 @@ variable "common_tags" {
 variable "instance_type" {
   type        = string
   description = "EC2 instance type"
-  default     = "m5.xlarge"
+  # default     = "m5.xlarge"
+  default     = "t4g.small"
 }
 
 variable "key_name" {
