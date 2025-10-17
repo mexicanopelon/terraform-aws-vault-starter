@@ -143,8 +143,8 @@ resource "aws_launch_template" "vault" {
   # image_id      = "ami-0f393ad09b0767896" # != null ? var.user_supplied_ami_id : data.aws_ami.ubuntu[0].id
   image_id      = "ami-03c4f11b50838ab5d"
   # image_id      = data.aws_ami.amazon_linux.id
-  # instance_type = var.instance_type
-  instance_type = "t3.small"
+  instance_type = var.instance_type
+  # instance_type = "t3.small"
   key_name      = var.key_name != null ? var.key_name : null
   user_data     = var.userdata_script
   vpc_security_group_ids = [
