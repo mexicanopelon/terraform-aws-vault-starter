@@ -32,7 +32,7 @@ variable "instance_type" {
   type        = string
   description = "EC2 instance type"
   # default     = "m5.xlarge"
-  default     = "t4g.small"
+  default     = "t3.small"
 }
 
 variable "key_name" {
