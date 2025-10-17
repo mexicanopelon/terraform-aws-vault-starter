@@ -19,7 +19,7 @@ resource "tls_self_signed_cert" "ca" {
     common_name = "ca.vault.server.com"
   }
 
-  validity_period_hours = 720 # 30 days
+  validity_period_hours = 4320 # 6 months
 
   allowed_uses = [
     "cert_signing",
@@ -54,6 +54,9 @@ resource "tls_cert_request" "server" {
   dns_names = [
     var.shared_san,
     "localhost",
+    "vault", 
+    "vault.local", 
+    "vault.service.consul"
   ]
 
   ip_addresses = [
