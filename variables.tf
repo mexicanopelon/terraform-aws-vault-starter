@@ -31,7 +31,8 @@ variable "common_tags" {
 
 variable "instance_type" {
   type        = string
-  default     = "m5.xlarge"
+  # default     = "m5.xlarge"
+  default     = "t4g.small"
   description = "EC2 instance type"
 }
 
@@ -80,6 +81,11 @@ variable "lb_type" {
   }
 }
 
+variable "lb_internal" {
+  description = "Is load balancer public or private."
+  type        = bool
+}
+
 variable "node_count" {
   type        = number
   default     = 5
@@ -93,6 +99,11 @@ variable "permissions_boundary" {
 }
 
 variable "private_subnet_ids" {
+  type        = list(string)
+  description = "Subnet IDs to deploy Vault into"
+}
+
+variable "public_subnet_ids" {
   type        = list(string)
   description = "Subnet IDs to deploy Vault into"
 }

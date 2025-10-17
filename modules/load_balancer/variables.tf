@@ -43,6 +43,13 @@ variable "lb_type" {
   type        = string
 }
 
+
+variable "lb_internal" {
+  description = "Is load balancer public or private."
+  type        = bool
+  default     = false
+}
+
 variable "resource_name_prefix" {
   type        = string
   description = "Resource name prefix used for tagging and naming AWS resources"
