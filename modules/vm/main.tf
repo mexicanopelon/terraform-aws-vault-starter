@@ -22,22 +22,22 @@
 #   owners = ["099720109477"] # Canonical
 # }
 
-data "aws_ami" "amazon_linux" {
-  most_recent = true
+# data "aws_ami" "amazon_linux" {
+#   most_recent = true
 
-  owners = ["amazon"]
+#   owners = ["amazon"]
 
-  filter {
-    name   = "name"
-    values = ["al2023-ami-*x86_64"]
-    # values = ["al2023-ami-*arm64"]
-  }
+#   filter {
+#     name   = "name"
+#     values = ["al2023-ami-*x86_64"]
+#     # values = ["al2023-ami-*arm64"]
+#   }
 
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-}
+#   filter {
+#     name   = "architecture"
+#     values = ["x86_64"]
+#   }
+# }
 
 resource "aws_security_group" "vault" {
   name   = "${var.resource_name_prefix}-vault"
@@ -141,8 +141,8 @@ resource "aws_security_group_rule" "vault_outbound" {
 resource "aws_launch_template" "vault" {
   name          = "${var.resource_name_prefix}-vault"
   # image_id      = "ami-0f393ad09b0767896" # != null ? var.user_supplied_ami_id : data.aws_ami.ubuntu[0].id
-  image_id      = "ami-03c4f11b50838ab5d"
-  # image_id      = data.aws_ami.amazon_linux.id
+  # image_id      = "ami-03c4f11b50838ab5d"
+  image_id      = var.user_supplied_ami_id 
   instance_type = var.instance_type
   # instance_type = "t3.small"
   key_name      = var.key_name != null ? var.key_name : null

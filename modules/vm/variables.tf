@@ -31,8 +31,8 @@ variable "common_tags" {
 variable "instance_type" {
   type        = string
   description = "EC2 instance type"
-  # default     = "m5.xlarge"
-  default     = "t3.small"
+  default     = "m5.xlarge"
+  # default     = "t3.small"
 }
 
 variable "key_name" {
@@ -65,7 +65,7 @@ variable "userdata_script" {
 variable "user_supplied_ami_id" {
   type        = string
   description = "AMI ID to use with Vault instances"
-  default     = "ami-0f393ad09b0767896"
+  default     = "ami-03c4f11b50838ab5d"
 }
 
 variable "vault_lb_sg_id" {
