@@ -11,10 +11,10 @@ module "vpc" {
   name                   = "${var.resource_name_prefix}-vault"
   cidr                   = var.vpc_cidr
   azs                    = var.azs
-  enable_nat_gateway     = true
-  one_nat_gateway_per_az = true
+  enable_nat_gateway     = false    # Setting to false for Bessemer
+  one_nat_gateway_per_az = false    # Setting to false for Bessemer
   private_subnets        = var.private_subnet_cidrs
-  public_subnets         = var.public_subnet_cidrs
+  # public_subnets         = var.public_subnet_cidrs
 
   tags = var.common_tags
 }

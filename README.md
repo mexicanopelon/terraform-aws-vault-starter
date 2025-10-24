@@ -34,9 +34,6 @@ on AWS using the open source version of Vault 1.8+.
 
 - To deploy into an existing VPC, ensure the following components exist and are
   routed to each other correctly:
-  - Three public subnets
-  - Three [NAT
-    gateways](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) (one in each public subnet)
   - Three private subnets
 
 - Create a Terraform configuration that pulls in the Vault module and specifies
