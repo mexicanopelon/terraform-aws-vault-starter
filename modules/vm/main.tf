@@ -173,28 +173,14 @@ resource "aws_launch_template" "vault" {
   }
 }
 
-resource "aws_autoscaling_group" "vault" {
-  name                = "${var.resource_name_prefix}-vault"
-  min_size            = var.node_count
-  max_size            = var.node_count
-  desired_capacity    = var.node_count
-  vpc_zone_identifier = var.vault_subnets
-  target_group_arns   = var.vault_target_group_arns
-
-  launch_template {
-    id      = aws_launch_template.vault.id
-    version = "$Latest"
-  }
-
-  tags = concat(
+locals {
+  extra_tags = concat(
     [
       {
         key                 = "Name"
         value               = "${var.resource_name_prefix}-vault-server"
         propagate_at_launch = true
-      }
-    ],
-    [
+      },
       {
         key                 = "${var.resource_name_prefix}-vault"
         value               = "server"
@@ -209,4 +195,53 @@ resource "aws_autoscaling_group" "vault" {
       }
     ]
   )
+}
+
+
+
+resource "aws_autoscaling_group" "vault" {
+  name                = "${var.resource_name_prefix}-vault"
+  min_size            = var.node_count
+  max_size            = var.node_count
+  desired_capacity    = var.node_count
+  vpc_zone_identifier = var.vault_subnets
+  target_group_arns   = var.vault_target_group_arns
+
+  launch_template {
+    id      = aws_launch_template.vault.id
+    version = "$Latest"
+  }
+
+  dynamic "tag" {
+    for_each = local.extra_tags
+    content {
+      key                 = tag.value.key
+      propagate_at_launch = tag.value.propagate_at_launch
+      value               = tag.value.value
+    }
+  }
+
+  # tags = concat(
+  #   [
+  #     {
+  #       key                 = "Name"
+  #       value               = "${var.resource_name_prefix}-vault-server"
+  #       propagate_at_launch = true
+  #     }
+  #   ],
+  #   [
+  #     {
+  #       key                 = "${var.resource_name_prefix}-vault"
+  #       value               = "server"
+  #       propagate_at_launch = true
+  #     }
+  #   ],
+  #   [
+  #     for k, v in var.common_tags : {
+  #       key                 = k
+  #       value               = v
+  #       propagate_at_launch = true
+  #     }
+  #   ]
+  # )
 }
