@@ -159,7 +159,7 @@ variable "vpc_id" {
   description = "VPC ID where Vault will be deployed"
 }
 
-variable "aws_region" {
+variable "aws_s3_region" {
   description = "AWS region for S3 bucket"
   type        = string
   default     = "us-east-1"
