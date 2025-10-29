@@ -16,7 +16,7 @@ module "iam" {
   resource_name_prefix        = var.resource_name_prefix
   secrets_manager_arn         = var.secrets_manager_arn
   user_supplied_iam_role_name = var.user_supplied_iam_role_name
-  vault_snapshot_s3_arn       = module.raft_snapshot.s3_bucket_arn
+  vault_snapshot_s3_arn       = module.raft_snapshot.s3_bucket_vault_snapshots_arn
   vault_snapshot_kms_key_arn  = module.kms.vault_snapshot_kms_key_arn
 
 }
