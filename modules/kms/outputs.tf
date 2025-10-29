@@ -10,5 +10,5 @@ output "kms_key_arn" {
 }
 
 output "vault_snapshot_kms_key_arn" {
-  value = aws_kms_key.vault_snapshots[0].arn
+  value = aws_kms_key.vault_snapshots.arn
 }

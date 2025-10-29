@@ -1,6 +1,6 @@
 # S3 Bucket for Vault snapshots
 resource "aws_s3_bucket" "vault_snapshots" {
-  bucket = "vault-raft-snapshots-${data.aws_caller_identity.current.account_id}" # MODIFY name if needed
+  bucket = "${var.resource_name_prefix}-vault-raft-snapshots}" # MODIFY name if needed
   
   tags = merge(
     { Name = "${var.resource_name_prefix}-vault-raft-snapshots" },
@@ -43,7 +43,7 @@ resource "aws_s3_bucket_public_access_block" "vault_snapshots" {
 
 # Vault Raft Snapshot Agent Configuration
 resource "vault_raft_snapshot_agent_config" "s3_snapshots" {
-  name              = "s3-snapshot-agent"
+  name              = "${var.resource_name_prefix}-s3-snapshot-agent"
   interval_seconds  = 3600  # Take snapshot every hour
   retain            = 168   # Retain 168 snapshots (1 week if hourly)
   path_prefix       = "vault-raft/"
@@ -60,3 +60,6 @@ resource "vault_raft_snapshot_agent_config" "s3_snapshots" {
   # aws_access_key_id     = var.aws_access_key_id
   # aws_secret_access_key = var.aws_secret_access_key
 }
+
+# Data source for current AWS account
+data "aws_caller_identity" "current" {}
