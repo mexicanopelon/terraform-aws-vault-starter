@@ -16,6 +16,9 @@ module "iam" {
   resource_name_prefix        = var.resource_name_prefix
   secrets_manager_arn         = var.secrets_manager_arn
   user_supplied_iam_role_name = var.user_supplied_iam_role_name
+  vault_snapshot_s3_arn       = module.raft_snapshot.s3_bucket_arn
+  vault_snapshot_kms_key_arn  = module.kms.vault_snapshot_kms_key_arn
+
 }
 
 module "kms" {
@@ -25,6 +28,15 @@ module "kms" {
   kms_key_deletion_window   = var.kms_key_deletion_window
   resource_name_prefix      = var.resource_name_prefix
   user_supplied_kms_key_arn = var.user_supplied_kms_key_arn
+}
+
+module "raft_snapshot" {
+  source = "./modules/raft_snapshot"
+
+  common_tags               = var.common_tags
+  aws_region                = var.aws_s3_region
+  resource_name_prefix      = var.resource_name_prefix
+  vault_snapshot_kms_key_arn = module.kms.vault_snapshot_kms_key_arn
 }
 
 module "loadbalancer" {

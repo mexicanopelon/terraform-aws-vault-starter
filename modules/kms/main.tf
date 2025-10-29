@@ -18,3 +18,22 @@ resource "aws_kms_key" "vault" {
     var.common_tags,
   )
 }
+
+
+# KMS key for S3 bucket encryption
+resource "aws_kms_key" "vault_snapshots" {
+  description             = "KMS key for Vault snapshot encryption"
+  deletion_window_in_days = 10
+  enable_key_rotation     = true
+
+  tags = merge(
+    { Name = "${var.resource_name_prefix}-vault-snapshots-key" },
+    var.common_tags,
+  )
+}
+
+# KMS key alias
+resource "aws_kms_alias" "vault_snapshots" {
+  name          = "alias/vault-snapshots"
+  target_key_id = aws_kms_key.vault_snapshots.key_id
+}
