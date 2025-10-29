@@ -48,7 +48,7 @@ module "loadbalancer" {
   lb_deregistration_delay = var.lb_deregistration_delay
   lb_health_check_path    = var.lb_health_check_path
   lb_internal             = var.lb_internal
-  lb_subnets              = var.lb_internal ? var.public_subnet_ids : var.private_subnet_ids # If LB is internal, then private subnets; otherwise public subnets.
+  lb_subnets              = var.lb_internal ? var.private_subnet_ids : var.public_subnet_ids # If LB is internal, then private subnets; otherwise public subnets.
   lb_type                 = var.lb_type
   resource_name_prefix    = var.resource_name_prefix
   ssl_policy              = var.ssl_policy

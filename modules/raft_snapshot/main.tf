@@ -60,6 +60,3 @@ resource "vault_raft_snapshot_agent_config" "s3_snapshots" {
   # aws_access_key_id     = var.aws_access_key_id
   # aws_secret_access_key = var.aws_secret_access_key
 }
-
-# Data source for current AWS account
-data "aws_caller_identity" "current" {}
