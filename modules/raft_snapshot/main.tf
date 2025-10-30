@@ -1,6 +1,6 @@
 # S3 Bucket for Vault snapshots
 resource "aws_s3_bucket" "vault_snapshots" {
-  bucket = "${var.resource_name_prefix}-vault-raft-snapshots}" # MODIFY name if needed
+  bucket = "${var.resource_name_prefix}-vault-raft-snapshots" # MODIFY name if needed
   
   tags = merge(
     { Name = "${var.resource_name_prefix}-vault-raft-snapshots" },
