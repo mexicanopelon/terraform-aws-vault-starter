@@ -32,7 +32,7 @@ variable "common_tags" {
 variable "instance_type" {
   type        = string
   # default     = "m5.xlarge"
-  default     = "t4g.small"
+  default     = "t3.small"
   description = "EC2 instance type"
 }
 
