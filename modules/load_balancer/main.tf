@@ -13,6 +13,7 @@ resource "aws_security_group" "vault_lb" {
 
   tags = merge(
     { Name = "${var.resource_name_prefix}-vault-lb-sg" },
+    { "bt:name" = "${var.resource_name_prefix}-vault-lb-sg" },
     var.common_tags,
   )
 }
@@ -54,6 +55,7 @@ resource "aws_lb" "vault_lb" {
 
   tags = merge(
     { Name = "${var.resource_name_prefix}-vault-lb" },
+    { "bt:name" = "${var.resource_name_prefix}-vault-lb" },
     var.common_tags,
   )
 }
@@ -77,6 +79,7 @@ resource "aws_lb_target_group" "vault" {
 
   tags = merge(
     { Name = "${var.resource_name_prefix}-vault-tg" },
+    { "bt:name" = "${var.resource_name_prefix}-vault-tg" },
     var.common_tags,
   )
 }

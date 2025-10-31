@@ -140,11 +140,9 @@ resource "aws_security_group_rule" "vault_outbound" {
 
 resource "aws_launch_template" "vault" {
   name          = "${var.resource_name_prefix}-vault"
-  # image_id      = "ami-0f393ad09b0767896" # != null ? var.user_supplied_ami_id : data.aws_ami.ubuntu[0].id
-  # image_id      = "ami-03c4f11b50838ab5d"
+  # name          = "ACP-HCPVLT"
   image_id      = var.user_supplied_ami_id 
   instance_type = var.instance_type
-  # instance_type = "t3.small"
   key_name      = var.key_name != null ? var.key_name : null
   user_data     = var.userdata_script
   vpc_security_group_ids = [
@@ -178,7 +176,8 @@ locals {
     [
       {
         key                 = "Name"
-        value               = "${var.resource_name_prefix}-vault-server"
+        # value               = "${var.resource_name_prefix}-vault-server"
+        value               = "ACP-HCPVLT"
         propagate_at_launch = true
       },
       {
@@ -196,8 +195,6 @@ locals {
     ]
   )
 }
-
-
 
 resource "aws_autoscaling_group" "vault" {
   name                = "${var.resource_name_prefix}-vault"
@@ -220,28 +217,4 @@ resource "aws_autoscaling_group" "vault" {
       value               = tag.value.value
     }
   }
-
-  # tags = concat(
-  #   [
-  #     {
-  #       key                 = "Name"
-  #       value               = "${var.resource_name_prefix}-vault-server"
-  #       propagate_at_launch = true
-  #     }
-  #   ],
-  #   [
-  #     {
-  #       key                 = "${var.resource_name_prefix}-vault"
-  #       value               = "server"
-  #       propagate_at_launch = true
-  #     }
-  #   ],
-  #   [
-  #     for k, v in var.common_tags : {
-  #       key                 = k
-  #       value               = v
-  #       propagate_at_launch = true
-  #     }
-  #   ]
-  # )
 }

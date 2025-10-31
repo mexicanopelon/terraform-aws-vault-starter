@@ -15,6 +15,7 @@ resource "aws_kms_key" "vault" {
 
   tags = merge(
     { Name = "${var.resource_name_prefix}-vault-key" },
+    { "bt:name" = "${var.resource_name_prefix}-vault-key" },
     var.common_tags,
   )
 }

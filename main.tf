@@ -35,7 +35,6 @@ module "loadbalancer" {
   lb_certificate_arn      = var.lb_certificate_arn
   lb_deregistration_delay = var.lb_deregistration_delay
   lb_health_check_path    = var.lb_health_check_path
-  lb_internal             = var.lb_internal
   lb_subnets              = var.private_subnet_ids 
   lb_type                 = var.lb_type
   resource_name_prefix    = var.resource_name_prefix
