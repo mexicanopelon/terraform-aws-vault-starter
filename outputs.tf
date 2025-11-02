@@ -41,3 +41,8 @@ output "vault_sg_id" {
   description = "Security group ID of Vault cluster"
   value       = module.vm.vault_sg_id
 }
+
+output "s3_bucket_vault_snapshots_arn" {
+  description = "ARN of the S3 bucket"
+  value       = module.kms.vault_snapshot_kms_key_arn
+}
