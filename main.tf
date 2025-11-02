@@ -30,7 +30,7 @@ module "kms" {
   user_supplied_kms_key_arn = var.user_supplied_kms_key_arn
 }
 
-module "raft_snapshot" {
+module "s3_storage" {
   source = "./modules/raft_snapshot"
 
   common_tags               = var.common_tags
