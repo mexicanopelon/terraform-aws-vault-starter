@@ -34,6 +34,6 @@ resource "aws_kms_key" "vault_snapshots" {
 
 # KMS key alias
 resource "aws_kms_alias" "vault_snapshots" {
-  name          = "alias/vault-snapshots"
+  name          = "alias/${var.resource_name_prefix}-vault-snapshots"
   target_key_id = aws_kms_key.vault_snapshots.key_id
 }
