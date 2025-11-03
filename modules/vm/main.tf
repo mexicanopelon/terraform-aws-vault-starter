@@ -197,8 +197,6 @@ locals {
   )
 }
 
-
-
 resource "aws_autoscaling_group" "vault" {
   name                = "${var.resource_name_prefix}-vault"
   min_size            = var.node_count

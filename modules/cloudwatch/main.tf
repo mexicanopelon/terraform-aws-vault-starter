@@ -1,6 +1,6 @@
 # CloudWatch Log Group
 resource "aws_cloudwatch_log_group" "vault_audit" {
-  name              = "${var.resource_name_prefix}-vault-audit-logs"
+  name              = var.log_group_name
   retention_in_days = var.log_retention_days
 
   tags = merge(
@@ -40,14 +40,14 @@ resource "aws_ssm_parameter" "cloudwatch_config" {
 }
 
 # Vault Audit Device
-resource "vault_audit" "file" {
-  type = "file"
-  path = "file"
+# resource "vault_audit" "file" {
+#   type = "file"
+#   path = "file"
 
-  options = {
-    file_path = "/var/log/vault/audit.log"
-  }
-}
+#   options = {
+#     file_path = "/var/log/vault/audit.log"
+#   }
+# }
 
 # CloudWatch Log Metric Filter for SSO Logins
 resource "aws_cloudwatch_log_metric_filter" "sso_logins" {
