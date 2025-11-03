@@ -72,6 +72,7 @@ module "user_data" {
   secrets_manager_arn         = var.secrets_manager_arn
   user_supplied_userdata_path = var.user_supplied_userdata_path
   vault_version               = var.vault_version
+  cloudwatch_config           = module.cloudwatch.cloudwatch_config
 }
 
 locals {

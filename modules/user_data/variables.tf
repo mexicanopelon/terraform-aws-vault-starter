@@ -40,3 +40,9 @@ variable "vault_version" {
   type        = string
   description = "Vault version"
 }
+
+
+variable "cloudwatch_config" {
+  type        = string
+  description = "CloudWatch SSM parameter config"
+}
