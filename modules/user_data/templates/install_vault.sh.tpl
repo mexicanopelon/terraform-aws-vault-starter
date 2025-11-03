@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 
 imds_token=$( curl -Ss -H "X-aws-ec2-metadata-token-ttl-seconds: 30" -XPUT 169.254.169.254/latest/api/token )
 instance_id=$( curl -Ss -H "X-aws-ec2-metadata-token: $imds_token" 169.254.169.254/latest/meta-data/instance-id )
@@ -85,3 +86,22 @@ cat <<PROFILE | sudo tee /etc/profile.d/vault.sh
 export VAULT_ADDR="https://127.0.0.1:8200"
 export VAULT_CACERT="/opt/vault/tls/vault-ca.pem"
 PROFILE
+
+
+# User data script for EC2 instance (to install and configure CloudWatch Agent)
+
+# Create Vault log directory
+mkdir -p /var/log/vault
+chown vault:vault /var/log/vault
+
+# Install CloudWatch Agent
+yum install -y amazon-cloudwatch-agent
+
+# Fetch CloudWatch Agent configuration from SSM
+/opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
+  -a fetch-config \
+  -m ec2 \
+  -s \
+  -c ssm:${aws_ssm_parameter.cloudwatch_config.name}. # NEED PASS THIS PARAMETER
+
+echo "CloudWatch Agent configured for Vault audit logs"
