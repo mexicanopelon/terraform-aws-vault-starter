@@ -244,7 +244,7 @@ resource "aws_iam_role_policy" "vault_cloudwatch_logs" {
           "logs:PutLogEvents",
           "logs:DescribeLogStreams"
         ]
-        Resource = "${aws_cloudwatch_log_group.vault_audit.arn}:*"
+        Resource = "${var.vault_cloudwatch_log_group_arn}:*"
       },
       {
         Effect = "Allow"
