@@ -4,19 +4,9 @@ output "cloudwatch_log_group_name" {
   value       = aws_cloudwatch_log_group.vault_audit.name
 }
 
-output "cloudwatch_log_group_arn" {
+output "vault_cloudwatch_log_group_arn" {
   description = "CloudWatch log group ARN"
   value       = aws_cloudwatch_log_group.vault_audit.arn
-}
-
-output "iam_role_arn" {
-  description = "IAM role ARN for EC2 instance"
-  value       = aws_iam_role.vault_cloudwatch.arn
-}
-
-output "iam_instance_profile_name" {
-  description = "IAM instance profile name"
-  value       = aws_iam_instance_profile.vault_cloudwatch.name
 }
 
 output "cloudwatch_console_url" {

@@ -47,3 +47,7 @@ variable "vault_snapshot_kms_key_arn" {
   description = "Vault snapshots KMS key ARN"
 }
 
+variable "vault_cloudwatch_log_group_arn" {
+  type        = string
+  description = "Vault CloudWatch Log Group ARN"
+}
