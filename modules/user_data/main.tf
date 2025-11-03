@@ -15,7 +15,7 @@ locals {
       kms_key_arn           = var.kms_key_arn
       secrets_manager_arn   = var.secrets_manager_arn
       leader_tls_servername = var.leader_tls_servername
-      cloudwatch_config     = var.cloudwatch_config
+      cloudwatch_config_name     = var.cloudwatch_config_name
     }
   )
 }

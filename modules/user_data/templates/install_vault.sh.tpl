@@ -102,6 +102,6 @@ yum install -y amazon-cloudwatch-agent
   -a fetch-config \
   -m ec2 \
   -s \
-  -c ssm:${cloudwatch_config.name}. # NEED PASS THIS PARAMETER
+  -c "ssm:${cloudwatch_config_name}" # NEED PASS THIS PARAMETER
 
 echo "CloudWatch Agent configured for Vault audit logs"

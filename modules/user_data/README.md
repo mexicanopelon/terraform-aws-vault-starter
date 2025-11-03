@@ -21,5 +21,6 @@ module "user_data" {
   resource_name_prefix     = var.resource_name_prefix
   secrets_manager_arn      = var.secrets_manager_arn
   vault_version            = var.vault_version
+   cloudwatch_config       = var.cloudwatch_config
 }
 ```
