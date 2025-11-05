@@ -13,6 +13,8 @@ module "vpc" {
   azs                    = var.azs
   enable_nat_gateway     = true
   one_nat_gateway_per_az = true
+  enable_dns_support     = true
+  enable_dns_hostnames   = true
   private_subnets        = var.private_subnet_cidrs
   public_subnets         = var.public_subnet_cidrs
 
