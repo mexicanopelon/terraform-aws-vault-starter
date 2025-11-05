@@ -164,3 +164,15 @@ variable "aws_s3_region" {
   type        = string
   default     = "us-east-1"
 }
+
+variable "log_group_name" {
+  description = "AWS CloudWatch log group name"
+  type        = string
+  default     = "/vault/${var.resource_name_prefix}-audit-logs"
+}
+
+variable "log_retention_days" {
+  description = "AWS CloudWatch log retention days"
+  type        = number
+  default     = 30
+}

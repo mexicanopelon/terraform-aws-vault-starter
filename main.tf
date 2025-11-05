@@ -113,6 +113,6 @@ module "cloudwatch" {
   aws_region                = var.aws_s3_region
   resource_name_prefix      = var.resource_name_prefix
   log_group_name            = "/vault/${var.resource_name_prefix}-audit-logs" # using default
-  log_retention_days        = 30 # using default
+  log_retention_days        = var.log_retention_days
 }
 
