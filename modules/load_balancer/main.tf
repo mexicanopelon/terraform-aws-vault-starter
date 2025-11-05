@@ -17,7 +17,7 @@ resource "aws_security_group" "vault_lb" {
   )
 }
 
-resource "aws_security_group_rule" "vault_lb_inbound" {
+resource "aws_security_group_rule" "vault_lb_public_inbound" {
   count             = var.lb_type == "application" && var.allowed_inbound_cidrs != null ? 1 : 0
   description       = "Allow specified public access to load balancer on port 8200"
   security_group_id = aws_security_group.vault_lb[0].id
