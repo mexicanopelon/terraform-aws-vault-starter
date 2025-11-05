@@ -1,4 +1,4 @@
-# AWS Load Balancer Module
+# AWS CloudWatch Module
 
 ## Required variables
 
@@ -14,16 +14,13 @@
 ## Example usage
 
 ```hcl
-module "loadbalancer" {
-  source = "./modules/load_balancer"
+module "cloudwatch" {
+  source = "./modules/cloudwatch"
 
-  lb_certificate_arn    = var.lb_certificate_arn
-  lb_health_check_path  = var.lb_health_check_path
-  lb_subnets            = var.vault_subnet_ids
-  lb_type               = var.lb_type
-  resource_name_prefix  = var.resource_name_prefix
-  ssl_policy            = var.ssl_policy
-  vault_sg_id           = var.vault_sg_id
-  vpc_id                = var.vpc_id
+  common_tags               = var.common_tags
+  aws_region                = var.aws_s3_region
+  resource_name_prefix      = var.resource_name_prefix
+  log_group_name            = var.log_group_name
+  log_retention_days        = var.log_retention_days
 }
 ```
