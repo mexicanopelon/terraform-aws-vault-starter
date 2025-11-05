@@ -37,15 +37,15 @@ variable "user_supplied_iam_role_name" {
   default     = null
 }
 
-variable "vault_snapshot_s3_arn" {
-  type        = string
-  description = "Vault snapshots s3 ARN"
-}
+# variable "vault_snapshot_s3_arn" {
+#   type        = string
+#   description = "Vault snapshots s3 ARN"
+# }
 
-variable "vault_snapshot_kms_key_arn" {
-  type        = string
-  description = "Vault snapshots KMS key ARN"
-}
+# variable "vault_snapshot_kms_key_arn" {
+#   type        = string
+#   description = "Vault snapshots KMS key ARN"
+# }
 
 variable "vault_cloudwatch_log_group_arn" {
   type        = string
