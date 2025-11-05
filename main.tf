@@ -113,8 +113,8 @@ locals {
 module "cloudwatch" {
   source = "./modules/cloudwatch"
 
+  aws_region                = data.aws_region.current.name
   common_tags               = var.common_tags
-  aws_region                = var.aws_s3_region
   resource_name_prefix      = var.resource_name_prefix
   log_group_name            = local.log_group_name
   log_retention_days        = var.log_retention_days
