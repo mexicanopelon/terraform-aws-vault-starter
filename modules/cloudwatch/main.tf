@@ -39,16 +39,6 @@ resource "aws_ssm_parameter" "cloudwatch_config" {
   )
 }
 
-# Vault Audit Device
-# resource "vault_audit" "file" {
-#   type = "file"
-#   path = "file"
-
-#   options = {
-#     file_path = "/var/log/vault/audit.log"
-#   }
-# }
-
 # CloudWatch Log Metric Filter for SSO Logins
 resource "aws_cloudwatch_log_metric_filter" "sso_logins" {
   name           = "${var.resource_name_prefix}-vault-sso-login-attempts"
