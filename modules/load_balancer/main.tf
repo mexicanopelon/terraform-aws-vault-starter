@@ -17,19 +17,8 @@ resource "aws_security_group" "vault_lb" {
   )
 }
 
-resource "aws_security_group_rule" "vault_lb_public_inbound" {
-  count             = var.lb_type == "application" && var.allowed_inbound_cidrs != null ? 1 : 0
-  description       = "Allow specified public access to load balancer on port 8200"
-  security_group_id = aws_security_group.vault_lb[0].id
-  type              = "ingress"
-  from_port         = 8200
-  to_port           = 8200
-  protocol          = "tcp"
-  cidr_blocks       = ["0.0.0.0/0"]
-}
-
 resource "aws_security_group_rule" "vault_lb_inbound" {
-  count             = var.lb_type == "application" && var.lb_internal == false ? 1 : 0
+  count             = var.lb_type == "application" && var.allowed_inbound_cidrs != null ? 1 : 0
   description       = "Allow specified CIDRs access to load balancer on port 8200"
   security_group_id = aws_security_group.vault_lb[0].id
   type              = "ingress"
@@ -37,6 +26,17 @@ resource "aws_security_group_rule" "vault_lb_inbound" {
   to_port           = 8200
   protocol          = "tcp"
   cidr_blocks       = var.allowed_inbound_cidrs
+}
+
+resource "aws_security_group_rule" "vault_lb_public_inbound" {
+  count             = var.lb_type == "application" && var.lb_internal == false ? 1 : 0
+  description       = "Allow specified public access to load balancer on port 8200"
+  security_group_id = aws_security_group.vault_lb[0].id
+  type              = "ingress"
+  from_port         = 8200
+  to_port           = 8200
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
 }
 
 resource "aws_security_group_rule" "vault_lb_outbound" {
