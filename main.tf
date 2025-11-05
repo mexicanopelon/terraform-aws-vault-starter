@@ -106,13 +106,17 @@ module "vm" {
   vpc_id                    = module.networking.vpc_id
 }
 
+locals {
+  log_group_name = "/vault/${var.resource_name_prefix}-audit-logs"
+}
+
 module "cloudwatch" {
   source = "./modules/cloudwatch"
 
   common_tags               = var.common_tags
   aws_region                = var.aws_s3_region
   resource_name_prefix      = var.resource_name_prefix
-  log_group_name            = "/vault/${var.resource_name_prefix}-audit-logs" # using default
+  log_group_name            = local.log_group_name
   log_retention_days        = var.log_retention_days
 }
 
