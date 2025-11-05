@@ -9,3 +9,19 @@ variable "vpc_id" {
   type        = string
   description = "VPC ID where Vault will be deployed"
 }
+
+variable "resource_name_prefix" {
+  type        = string
+  description = "Resource name prefix used for tagging and naming AWS resources"
+}
+
+variable "common_tags" {
+  type        = map(string)
+  description = "(Optional) Map of common tags for all taggable AWS resources."
+  default     = {}
+}
+
+variable "vault_subnets" {
+  type        = list(string)
+  description = "Subnet IDs to deploy Vault into"
+}

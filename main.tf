@@ -59,7 +59,10 @@ module "loadbalancer" {
 module "networking" {
   source = "./modules/networking"
 
-  vpc_id = var.vpc_id
+  vpc_id                  = var.vpc_id
+  common_tags             = var.common_tags
+  resource_name_prefix    = var.resource_name_prefix
+  vault_subnets           = var.private_subnet_ids
 }
 
 module "user_data" {
