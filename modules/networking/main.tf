@@ -44,9 +44,9 @@ resource "aws_security_group" "vpc_endpoints" {
 # VPC Endpoint for AWS Secrets Manager
 resource "aws_vpc_endpoint" "secrets_manager" {
   vpc_id              = var.vpc_id
-  service_name        = "com.amazonaws.${data.aws_region.current.name}.secretsmanager"
+  service_name        = "com.amazonaws.${var.aws_region}.secretsmanager"
   vpc_endpoint_type   = "Interface"
-  subnet_ids          = var.private_subnet_ids
+  subnet_ids          = var.vault_subnets
   security_group_ids  = [aws_security_group.vpc_endpoints.id]
   private_dns_enabled = true
 
@@ -59,9 +59,9 @@ resource "aws_vpc_endpoint" "secrets_manager" {
 # VPC Endpoint for AWS KMS
 resource "aws_vpc_endpoint" "kms" {
   vpc_id              = var.vpc_id
-  service_name        = "com.amazonaws.${data.aws_region.current.name}.kms"
+  service_name        = "com.amazonaws.${var.aws_region}.kms"
   vpc_endpoint_type   = "Interface"
-  subnet_ids          = var.private_subnet_ids
+  subnet_ids          = var.vault_subnets
   security_group_ids  = [aws_security_group.vpc_endpoints.id]
   private_dns_enabled = true
 
@@ -75,9 +75,9 @@ resource "aws_vpc_endpoint" "kms" {
 # This creates an endpoint for ACM Private CA
 resource "aws_vpc_endpoint" "acm_pca" {
   vpc_id              = var.vpc_id
-  service_name        = "com.amazonaws.${data.aws_region.current.name}.acm-pca"
+  service_name        = "com.amazonaws.${var.aws_region}.acm-pca"
   vpc_endpoint_type   = "Interface"
-  subnet_ids          = var.private_subnet_ids
+  subnet_ids          = var.vault_subnets
   security_group_ids  = [aws_security_group.vpc_endpoints.id]
   private_dns_enabled = true
 
@@ -93,7 +93,7 @@ resource "aws_vpc_endpoint" "acm_pca" {
 #   count = var.enable_s3_endpoint ? 1 : 0
 
 #   vpc_id            = var.vpc_id
-#   service_name      = "com.amazonaws.${data.aws_region.current.name}.s3"
+#   service_name      = "com.amazonaws.${var.aws_region}.s3"
 #   vpc_endpoint_type = "Gateway"
 #   route_table_ids   = data.aws_route_tables.private.ids
 
@@ -108,9 +108,9 @@ resource "aws_vpc_endpoint" "acm_pca" {
 #   count = var.enable_ec2_endpoint ? 1 : 0
 
 #   vpc_id              = var.vpc_id
-#   service_name        = "com.amazonaws.${data.aws_region.current.name}.ec2"
+#   service_name        = "com.amazonaws.${var.aws_region}.ec2"
 #   vpc_endpoint_type   = "Interface"
-#   subnet_ids          = var.private_subnet_ids
+#   subnet_ids          = var.vault_subnets
 #   security_group_ids  = [aws_security_group.vpc_endpoints.id]
 #   private_dns_enabled = true
 
@@ -126,9 +126,9 @@ resource "aws_vpc_endpoint" "acm_pca" {
 #   count = var.enable_ssm_endpoints ? 1 : 0
 
 #   vpc_id              = var.vpc_id
-#   service_name        = "com.amazonaws.${data.aws_region.current.name}.ssm"
+#   service_name        = "com.amazonaws.${var.aws_region}.ssm"
 #   vpc_endpoint_type   = "Interface"
-#   subnet_ids          = var.private_subnet_ids
+#   subnet_ids          = var.vault_subnets
 #   security_group_ids  = [aws_security_group.vpc_endpoints.id]
 #   private_dns_enabled = true
 
@@ -142,9 +142,9 @@ resource "aws_vpc_endpoint" "acm_pca" {
 #   count = var.enable_ssm_endpoints ? 1 : 0
 
 #   vpc_id              = var.vpc_id
-#   service_name        = "com.amazonaws.${data.aws_region.current.name}.ssmmessages"
+#   service_name        = "com.amazonaws.${var.aws_region}.ssmmessages"
 #   vpc_endpoint_type   = "Interface"
-#   subnet_ids          = var.private_subnet_ids
+#   subnet_ids          = var.vault_subnets
 #   security_group_ids  = [aws_security_group.vpc_endpoints.id]
 #   private_dns_enabled = true
 
@@ -158,9 +158,9 @@ resource "aws_vpc_endpoint" "acm_pca" {
 #   count = var.enable_ssm_endpoints ? 1 : 0
 
 #   vpc_id              = var.vpc_id
-#   service_name        = "com.amazonaws.${data.aws_region.current.name}.ec2messages"
+#   service_name        = "com.amazonaws.${var.aws_region}.ec2messages"
 #   vpc_endpoint_type   = "Interface"
-#   subnet_ids          = var.private_subnet_ids
+#   subnet_ids          = var.vault_subnets
 #   security_group_ids  = [aws_security_group.vpc_endpoints.id]
 #   private_dns_enabled = true
 

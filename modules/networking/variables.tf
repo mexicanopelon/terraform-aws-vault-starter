@@ -5,6 +5,11 @@
  *
  */
 
+variable "aws_region" {
+  type        = string
+  description = "AWS region where Vault is being deployed"
+}
+
 variable "vpc_id" {
   type        = string
   description = "VPC ID where Vault will be deployed"

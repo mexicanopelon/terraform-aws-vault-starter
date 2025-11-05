@@ -59,6 +59,7 @@ module "loadbalancer" {
 module "networking" {
   source = "./modules/networking"
 
+  aws_region              = data.aws_region.current.name
   vpc_id                  = var.vpc_id
   common_tags             = var.common_tags
   resource_name_prefix    = var.resource_name_prefix
