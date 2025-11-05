@@ -25,7 +25,7 @@ resource "aws_security_group_rule" "vault_lb_public_inbound" {
   from_port         = 8200
   to_port           = 8200
   protocol          = "tcp"
-  cidr_blocks       = "0.0.0.0/0"
+  cidr_blocks       = ["0.0.0.0/0"]
 }
 
 resource "aws_security_group_rule" "vault_lb_inbound" {
