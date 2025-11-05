@@ -242,7 +242,8 @@ resource "aws_iam_role_policy" "vault_cloudwatch_logs" {
           "logs:CreateLogGroup",
           "logs:CreateLogStream",
           "logs:PutLogEvents",
-          "logs:DescribeLogStreams"
+          "logs:DescribeLogStreams",
+          "logs:FilterLogEvents"
         ]
         Resource = "${var.vault_cloudwatch_log_group_arn}:*"
       },
