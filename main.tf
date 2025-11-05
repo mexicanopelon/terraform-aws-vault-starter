@@ -30,14 +30,14 @@ module "kms" {
   user_supplied_kms_key_arn = var.user_supplied_kms_key_arn
 }
 
-module "raft_snapshot" {
-  source = "./modules/raft_snapshot"
+# module "raft_snapshot" {
+#   source = "./modules/raft_snapshot"
 
-  common_tags               = var.common_tags
-  aws_region                = var.aws_s3_region
-  resource_name_prefix      = var.resource_name_prefix
-  vault_snapshot_kms_key_arn = module.kms.vault_snapshot_kms_key_arn
-}
+#   common_tags               = var.common_tags
+#   aws_region                = var.aws_s3_region
+#   resource_name_prefix      = var.resource_name_prefix
+#   vault_snapshot_kms_key_arn = module.kms.vault_snapshot_kms_key_arn
+# }
 
 module "loadbalancer" {
   source = "./modules/load_balancer"

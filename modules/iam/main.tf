@@ -123,41 +123,41 @@ data "aws_iam_policy_document" "secrets_manager" {
 
 
 ###### IAM policy for Vault to access S3 - START ######
-resource "aws_iam_role_policy" "vault_snapshot_policy" {
-  name = "${var.resource_name_prefix}-vault-snapshot-s3-policy"
-  role   = aws_iam_role.instance_role[0].id
+# resource "aws_iam_role_policy" "vault_snapshot_policy" {
+#   name = "${var.resource_name_prefix}-vault-snapshot-s3-policy"
+#   role   = aws_iam_role.instance_role[0].id
 
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "s3:PutObject",
-          "s3:GetObject",
-          "s3:ListBucket",
-          "s3:DeleteObject"
-        ]
-        Resource = [
-          var.vault_snapshot_s3_arn,
-          "${var.vault_snapshot_s3_arn}/*"
-        ]
-      },
-      {
-        Effect = "Allow"
-        Action = [
-          "kms:Decrypt",
-          "kms:Encrypt",
-          "kms:GenerateDataKey",
-          "kms:DescribeKey"
-        ]
-        Resource = [
-          var.vault_snapshot_kms_key_arn
-        ]
-      }
-    ]
-  })
-}
+#   policy = jsonencode({
+#     Version = "2012-10-17"
+#     Statement = [
+#       {
+#         Effect = "Allow"
+#         Action = [
+#           "s3:PutObject",
+#           "s3:GetObject",
+#           "s3:ListBucket",
+#           "s3:DeleteObject"
+#         ]
+#         Resource = [
+#           var.vault_snapshot_s3_arn,
+#           "${var.vault_snapshot_s3_arn}/*"
+#         ]
+#       },
+#       {
+#         Effect = "Allow"
+#         Action = [
+#           "kms:Decrypt",
+#           "kms:Encrypt",
+#           "kms:GenerateDataKey",
+#           "kms:DescribeKey"
+#         ]
+#         Resource = [
+#           var.vault_snapshot_kms_key_arn
+#         ]
+#       }
+#     ]
+#   })
+# }
 
 # resource "aws_iam_policy" "vault_snapshot_policy" {
 #   name        = "${var.resource_name_prefix}-vault-snapshot-s3-policy"
