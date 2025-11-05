@@ -18,7 +18,7 @@ variable "common_tags" {
 variable "log_group_name" {
   description = "CloudWatch log group name"
   type        = string
-  default     = "/vault/audit-logs"
+  default     = null
 }
 
 variable "log_retention_days" {
