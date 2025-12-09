@@ -1,0 +1,88 @@
+---
+- name: "Read existing credentials from Vault for {{ current_user.iam_user }}"
+  community.hashi_vault.vault_kv2_get:
+    url: "{{ vault_url }}"
+    engine_mount_point: "{{ current_user.vault_mount_point | default(vault_mount_point) }}"
+    path: "{{ current_user.vault_secret_path }}"
+    validate_certs: false
+    auth_method: token
+    token: "{{ vault_token }}"
+  register: vault_credentials
+  failed_when: false
+
+- name: "Display existing credentials for {{ current_user.iam_user }}"
+  ansible.builtin.debug:
+    msg:
+      - "Processing user: {{ current_user.iam_user }}"
+      - "Vault path: {{ current_user.vault_secret_path }}"
+  when: vault_credentials.data is defined
+
+- name: "Query existing IAM user access keys for {{ current_user.iam_user }}"
+  amazon.aws.iam_access_key_info:
+    user_name: "{{ current_user.iam_user }}"
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+    region: "{{ current_user.aws_region| default(aws_region) }}"
+  register: current_aws_keys
+  no_log: true
+
+- name: "Display current key count for {{ current_user.iam_user }}"
+  ansible.builtin.debug:
+    msg: "User {{ current_user.iam_user }} currently has {{ current_aws_keys.access_keys | length }} access key(s)"
+
+- name: "Create new access key for {{ current_user.iam_user }}"
+  amazon.aws.iam_access_key:
+    user_name: "{{ current_user.iam_user }}"
+    state: present
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+    region: "{{ current_user.aws_region| default(aws_region) }}"
+  register: new_aws_access_key
+
+- name: "Display new AWS Access Key for {{ current_user.iam_user }}"
+  ansible.builtin.debug:
+    msg: "Successfully created new access key for {{ current_user.iam_user }}"
+
+- name: "Store new credentials in Vault KV2 for {{ current_user.iam_user }}"
+  community.hashi_vault.vault_kv2_write:
+    url: "{{ vault_url }}"
+    token: "{{ vault_token }}"
+    engine_mount_point: "{{ current_user.vault_mount_point | default(vault_mount_point) }}"
+    path: "{{ current_user.vault_secret_path }}"
+    validate_certs: false
+    data:
+      access_key_id: "{{ new_aws_access_key.access_key.access_key_id }}"
+      secret_access_key: "{{ new_aws_access_key.secret_access_key }}"
+      created_date: "{{ new_aws_access_key.access_key.create_date }}"
+      rotated_at: "{{ ansible_date_time.iso8601 }}"
+      rotated_by: "{{ ansible_user_id }}"
+      iam_user: "{{ current_user.iam_user }}"
+  no_log: true
+
+- name: "Wait for AWS key propagation for {{ current_user.iam_user }}"
+  ansible.builtin.pause:
+    seconds: 15
+    prompt: "Waiting for new AWS access key to propagate globally for {{ current_user.iam_user }}..."
+
+- name: "Validate new credentials for {{ current_user.iam_user }}"
+  amazon.aws.aws_caller_info:
+    aws_access_key: "{{ new_aws_access_key.access_key.access_key_id }}"
+    aws_secret_key: "{{ new_aws_access_key.secret_access_key }}"
+    region: "{{ current_user.aws_region| default(aws_region) }}"
+  register: caller_identity
+  retries: 3
+  delay: 5
+  until: caller_identity is succeeded
+
+- name: "Delete old keys for {{ current_user.iam_user }} after verification"
+  amazon.aws.iam_access_key:
+    user_name: "{{ current_user.iam_user }}"
+    id: "{{ item.access_key_id }}"
+    state: absent
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+    region: "{{ current_user.aws_region| default(aws_region) }}"
+  loop: "{{ current_aws_keys.access_keys }}"
+  when:
+    - item.access_key_id != new_aws_access_key.access_key.access_key_id
+    - item.status == 'Active'

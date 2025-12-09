@@ -1,0 +1,16 @@
+---
+- name: Rotate Key Vault Secrets for Multiple Users
+  hosts: localhost
+  tasks:
+    - name: Validate users list is defined
+      ansible.builtin.assert:
+        that:
+          - aws_iam_users is defined
+          - aws_iam_users | length > 0
+        fail_msg: "aws_iam_users list must be defined and contain at least one user"
+
+    - name: Rotate credentials for each user
+      ansible.builtin.include_tasks: rotate-user-key.yaml
+      loop: "{{ aws_iam_users }}"
+      loop_control:
+        loop_var: current_user
