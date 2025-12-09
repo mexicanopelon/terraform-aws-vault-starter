@@ -20,8 +20,6 @@
 - name: "Query existing IAM user access keys for {{ current_user.iam_user }}"
   amazon.aws.iam_access_key_info:
     user_name: "{{ current_user.iam_user }}"
-    aws_access_key: "{{ aws_access_key }}"
-    aws_secret_key: "{{ aws_secret_key }}"
     region: "{{ current_user.aws_region| default(aws_region) }}"
   register: current_aws_keys
   no_log: true
@@ -34,8 +32,6 @@
   amazon.aws.iam_access_key:
     user_name: "{{ current_user.iam_user }}"
     state: present
-    aws_access_key: "{{ aws_access_key }}"
-    aws_secret_key: "{{ aws_secret_key }}"
     region: "{{ current_user.aws_region| default(aws_region) }}"
   register: new_aws_access_key
 
@@ -66,8 +62,6 @@
 
 - name: "Validate new credentials for {{ current_user.iam_user }}"
   amazon.aws.aws_caller_info:
-    aws_access_key: "{{ new_aws_access_key.access_key.access_key_id }}"
-    aws_secret_key: "{{ new_aws_access_key.secret_access_key }}"
     region: "{{ current_user.aws_region| default(aws_region) }}"
   register: caller_identity
   retries: 3
@@ -79,8 +73,6 @@
     user_name: "{{ current_user.iam_user }}"
     id: "{{ item.access_key_id }}"
     state: absent
-    aws_access_key: "{{ aws_access_key }}"
-    aws_secret_key: "{{ aws_secret_key }}"
     region: "{{ current_user.aws_region| default(aws_region) }}"
   loop: "{{ current_aws_keys.access_keys }}"
   when:
