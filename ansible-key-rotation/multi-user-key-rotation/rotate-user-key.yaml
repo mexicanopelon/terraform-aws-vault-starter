@@ -6,7 +6,7 @@
     path: "{{ current_user.vault_secret_path }}"
     validate_certs: false
     auth_method: token
-    token: "{{ vault_token }}"
+    token: "{{ cpaz-vault-token }}"
   register: vault_credentials
   failed_when: false
 
@@ -46,7 +46,7 @@
 - name: "Store new credentials in Vault KV2 for {{ current_user.iam_user }}"
   community.hashi_vault.vault_kv2_write:
     url: "{{ vault_url }}"
-    token: "{{ vault_token }}"
+    token: "{{ cpaz-vault-token }}"
     engine_mount_point: "{{ current_user.vault_mount_point | default(vault_mount_point) }}"
     path: "{{ current_user.vault_secret_path }}"
     validate_certs: false
