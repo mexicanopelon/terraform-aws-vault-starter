@@ -24,7 +24,7 @@
     aws_secret_key: "{{ aws_secret_key }}"
     region: "{{ current_user.aws_region| default(aws_region) }}"
   register: current_aws_keys
-  no_log: true
+  # no_log: true
 
 - name: "Display current key count for {{ current_user.iam_user }}"
   ansible.builtin.debug:
