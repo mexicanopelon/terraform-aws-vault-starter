@@ -2,8 +2,8 @@
 - name: "Read existing credentials from Vault for {{ current_user.iam_user }}"
   community.hashi_vault.vault_kv2_get:
     url: "{{ vault_url }}"
-    engine_mount_point: "{{ current_user.vault_mount_point | default(vault_mount_point) }}"
-    path: "{{ current_user.vault_secret_path }}"
+    engine_mount_point: "{{ vault_mount_point }}"
+    path: "{{ current_user.iam_user }}"
     validate_certs: false
     auth_method: token
     token: "{{ cpaz_vault_token }}"
@@ -14,7 +14,7 @@
   ansible.builtin.debug:
     msg:
       - "Processing user: {{ current_user.iam_user }}"
-      - "Vault path: {{ current_user.vault_secret_path }}"
+      - "Vault path: {{ current_user.iam_user }}"
   when: vault_credentials.data is defined
 
 - name: "Query existing IAM user access keys for {{ current_user.iam_user }}"
@@ -22,7 +22,7 @@
     user_name: "{{ current_user.iam_user }}"
     aws_access_key: "{{ aws_access_key }}"
     aws_secret_key: "{{ aws_secret_key }}"
-    region: "{{ current_user.aws_region| default(aws_region) }}"
+    region: "{{ aws_region }}"
   register: current_aws_keys
   # no_log: true
 
@@ -36,7 +36,7 @@
     state: present
     aws_access_key: "{{ aws_access_key }}"
     aws_secret_key: "{{ aws_secret_key }}"
-    region: "{{ current_user.aws_region| default(aws_region) }}"
+    region: "{{ aws_region }}"
   register: new_aws_access_key
 
 - name: "Display new AWS Access Key for {{ current_user.iam_user }}"
@@ -47,8 +47,8 @@
   community.hashi_vault.vault_kv2_write:
     url: "{{ vault_url }}"
     token: "{{ cpaz_vault_token }}"
-    engine_mount_point: "{{ current_user.vault_mount_point | default(vault_mount_point) }}"
-    path: "{{ current_user.vault_secret_path }}"
+    engine_mount_point: "{{ vault_mount_point }}"
+    path: "{{ current_user.iam_user }}"
     validate_certs: false
     data:
       access_key_id: "{{ new_aws_access_key.access_key.access_key_id }}"
@@ -68,7 +68,7 @@
   amazon.aws.aws_caller_info:
     aws_access_key: "{{ new_aws_access_key.access_key.access_key_id }}"
     aws_secret_key: "{{ new_aws_access_key.secret_access_key }}"
-    region: "{{ current_user.aws_region| default(aws_region) }}"
+    region: "{{ aws_region }}"
   register: caller_identity
   retries: 3
   delay: 5
@@ -81,7 +81,7 @@
     state: absent
     aws_access_key: "{{ aws_access_key }}"
     aws_secret_key: "{{ aws_secret_key }}"
-    region: "{{ current_user.aws_region| default(aws_region) }}"
+    region: "{{ aws_region }}"
   loop: "{{ current_aws_keys.access_keys }}"
   when:
     - item.access_key_id != new_aws_access_key.access_key.access_key_id

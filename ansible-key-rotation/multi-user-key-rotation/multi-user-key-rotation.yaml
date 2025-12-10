@@ -4,6 +4,8 @@
   vars:
     aws_access_key: '{{ lookup("env", "AWS_ACCESS_KEY_ID") }}'
     aws_secret_key: '{{ lookup("env", "AWS_SECRET_ACCESS_KEY") }}'
+    aws_iam_users: "{{ survey_users_list | split(',') | map('trim') | list }}"
+    vault_mount_point: "{{ survey_vault_mount_point }}"
   tasks:
     - name: Validate users list is defined
       ansible.builtin.assert:
