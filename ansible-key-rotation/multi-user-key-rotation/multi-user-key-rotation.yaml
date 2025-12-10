@@ -1,10 +1,10 @@
 ---
 - name: Rotate Key Vault Secrets for Multiple Users
   hosts: localhost
-  vars:
-    aws_access_key: '{{ lookup("env", "AWS_ACCESS_KEY_ID") }}'
-    aws_secret_key: '{{ lookup("env", "AWS_SECRET_ACCESS_KEY") }}'
-    # cpaz_vault_token: '{{ lookup("env", "cpaz_vault_token") }}'
+  # vars:
+  #   aws_access_key: '{{ lookup("env", "AWS_ACCESS_KEY_ID") }}'
+  #   aws_secret_key: '{{ lookup("env", "AWS_SECRET_ACCESS_KEY") }}'
+  #   cpaz_vault_token: '{{ lookup("env", "cpaz_vault_token") }}'
   tasks:
     - name: Validate users list is defined
       ansible.builtin.assert:
